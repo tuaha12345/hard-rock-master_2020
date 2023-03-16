@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Hard Rock Solution - Song Lyric App</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar  navbar-dark my-3">
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" alt="Hard Rock Solution">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+                aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+                <img src="images/toggler-icon.svg" alt="">
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownId">
+                            <a class="dropdown-item" href="#">Action 1</a>
+                            <a class="dropdown-item" href="#">Action 2</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content-area">
+            <div class="search-bar col-md-6 mx-auto">
+                <h1 class="text-center">Hard Rock Lyric Search</h1>
+                <div class="search-box my-5">
+                    <input type="text" class="form-control" placeholder="Enter your artist song name" id='get-name'>
+                    <button class="btn btn-success search-btn" onclick="search_fun()">Search</button>
+                </div>
+            </div>
+            <!-- Single Lyrics -->
+            <div class="single-lyrics text-center">
+
+            </div>
+
+
+
+
+               <!-- ---------------------show details------------------ -->
+
+            <div class="search-result col-md-8 mx-auto py-4" id="search_result">
+<!--                 <div class="single-result row align-items-center my-3 p-3">
+                    <div class="col-md-9">
+                        <h3 class="lyrics-name" id="lyrics_name">Purple Noon</h3>
+                        <p class="author lead">Album by <span>Washed Out</span></p>
+                    </div>
+                    <div class="col-md-3 text-md-right text-center">
+                        <button class="btn btn-success" id="Get_Lyrics">Get Lyrics</button>
+                    </div>
+                </div> -->
+            </div>
+
+
+
+
+        </main>
+    </div>
+    <!-- Optional JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Custom Script Here -->
+
+        <script >
+
+
+            function search_fun()
+            {
+                    const name=document.getElementById('get-name').value;
+                      fetch('https://api.lyrics.ovh/suggest/'+name)
+                      .then(response => response.json())
+                      .then(data =>{
+
+                       // console.log(data.data[0].title);
+                        for(let i=0;i<10;i++)
+                        {
+                                    const value=data.data[i].artist.name;
+                                   console.log(data.data[0].preview);
+
+
+                const main= document.getElementById("search_result");
+                const h3=document.createElement('h3');
+                const p=document.createElement('p');
+                const div1=document.createElement('div');
+                const div2=document.createElement('div');
+                const div3=document.createElement('div');
+                const button=document.createElement('button');
+
+ 
+                h3.innerHTML =`${data.data[i].title}`;
+                p.innerHTML=`Album by <span> ${data.data[i].artist.name} </span>`;
+                button.innerHTML='Get Lyrics';
+                div2.appendChild(h3);
+                div2.appendChild(p);
+                div3.appendChild(button);
+
+                div1.style.backgroundColor ="rgba(255, 255, 255, 0.2)";
+                div1.style.borderRadius ="15px";
+                div1.style.padding = "20px 10px 10px 30px";
+                div1.style.marginTop = "50px";
+
+                button.style.padding = "10px 10px 10px 10px";
+                button.style.backgroundColor="#157347";
+                button.style.borderRadius ="10px";
+                button.style.border ="none";
+                button.style.color="white";
+                button.addEventListener("click", function()
+                    {
+                        button.innerHTML = "YOU CLICKED ME!";
+                        location.href=data.data[i].preview;
+
+                    });
+
+                div1.appendChild(div2);
+                div1.appendChild(div3);
+
+                div1.style.columnCount = "2";
+                div3.style.textAlignLast = "right";
+
+                main.appendChild(div1);
+                
+
+
+           
+                    }
+
+
+
+
+
+
+
+            });
+                
+
+            }
+
+
+
+
+
+
+
+   
+
+        
+
+    </script>
+
+
+</body>
+
+</html>
